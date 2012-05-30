@@ -1,5 +1,4 @@
 <p class="pagination">
-
 	<?php if ($first_page !== FALSE): ?>
 		<a href="<?php echo HTML::chars($page->url($first_page)) ?>" rel="first"><?php echo __('First') ?></a>
 	<?php else: ?>

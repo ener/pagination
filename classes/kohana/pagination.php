@@ -15,7 +15,7 @@ class Kohana_Pagination {
 		'current_page'      => array('source' => 'query_string', 'key' => 'page'),
 		'total_items'       => 0,
 		'items_per_page'    => 10,
-		'view'              => 'pagination/basic',
+		'view'              => 'pagination/floating',
 		'auto_hide'         => TRUE,
 		'first_page_in_url' => FALSE,
 	);
@@ -230,7 +230,7 @@ class Kohana_Pagination {
 			case 'mixed':
 			
 				return URL::site($this->route->uri($this->route_params).
-					$this->query(array($this->config['current_page']['key'] => $page)));
+					$this->query(array($this->config['current_page']['key'] => $page)), null, false);
 
 			case 'route':
 			
@@ -274,7 +274,6 @@ class Kohana_Pagination {
 			// Use the view from config
 			$view = $this->config['view'];
 		}
-
 		if ( ! $view instanceof View)
 		{
 			// Load the view file
@@ -408,6 +407,10 @@ class Kohana_Pagination {
 	public function __set($key, $value)
 	{
 		$this->setup(array($key => $value));
+	}
+
+	public function offset(){
+		return $this->offset;
 	}
 
 } // End Pagination
