@@ -233,9 +233,32 @@ class Kohana_Pagination {
 					$this->query(array($this->config['current_page']['key'] => $page)), null, false);
 
 			case 'route':
-			
+
 				return URL::site($this->route->uri(array_merge($this->route_params, 
 					array($this->config['current_page']['key'] => $page))).$this->query());
+		}
+
+		return '#';
+	}
+
+	public function base_url()
+	{
+		if (array_key_exists('current_page', $this->route_params)) {
+			unset($this->route_params['current_page']);
+		}
+
+		switch ($this->config['current_page']['source'])
+		{
+			case 'query_string':
+			case 'mixed':
+				$url = URL::site($this->route->uri($this->route_params).
+					$this->query(array($this->config['current_page']['key'] => '')), null, false);
+				return $url;
+
+			case 'route':
+
+				return URL::site($this->route->uri(array_merge($this->route_params,
+					array($this->config['current_page']['key'] => ''))).$this->query());
 		}
 
 		return '#';
