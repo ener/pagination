@@ -197,7 +197,7 @@ class Kohana_Pagination {
 			$this->total_items        = (int) max(0, $this->config['total_items']);
 			$this->items_per_page     = (int) max(1, $this->config['items_per_page']);
 			$this->total_pages        = (int) ceil($this->total_items / $this->items_per_page);
-			$this->pages_in_line     = (int) max(1, $this->config['pages_in_line']);
+			$this->pages_in_line      = (int) max(1, $this->config['pages_in_line']);
 			$this->current_page       = (int) min(max(1, $this->current_page), max(1, $this->total_pages));
 			$this->current_first_item = (int) min((($this->current_page - 1) * $this->items_per_page) + 1, $this->total_items);
 			$this->current_last_item  = (int) min($this->current_first_item + $this->items_per_page - 1, $this->total_items);
@@ -246,29 +246,6 @@ class Kohana_Pagination {
 		return '#';
 	}
 
-	public function base_url()
-	{
-		if (array_key_exists('current_page', $this->route_params)) {
-			unset($this->route_params['current_page']);
-		}
-
-		switch ($this->config['current_page']['source'])
-		{
-			case 'query_string':
-			case 'mixed':
-				$url = URL::site($this->route->uri($this->route_params).
-					$this->query(array($this->config['current_page']['key'] => '')), null, false);
-				return $url;
-
-			case 'route':
-
-				return URL::site($this->route->uri(array_merge($this->route_params,
-					array($this->config['current_page']['key'] => ''))).$this->query());
-		}
-
-		return '#';
-	}
-
 	/**
 	 * Special feature for paginator3000
 	 * @return string
@@ -305,10 +282,9 @@ class Kohana_Pagination {
 	public function valid_page($page)
 	{
 		// Page number has to be a clean integer
-		if (!Valid::digit($page))
-				{
-					return FALSE;
-				}
+		if (!Valid::digit($page)) {
+			return FALSE;
+		}
 
 		return $page > 0 AND $page <= $this->total_pages;
 	}
@@ -322,10 +298,9 @@ class Kohana_Pagination {
 	public function render($view = NULL)
 	{
 		// Automatically hide pagination whenever it is superfluous
-		if ($this->config['auto_hide'] === TRUE AND $this->total_pages <= 1)
-				{
-					return '';
-				}
+		if ($this->config['auto_hide'] === TRUE AND $this->total_pages <= 1) {
+			return '';
+		}
 
 		if ($view === NULL)
 		{
@@ -352,10 +327,9 @@ class Kohana_Pagination {
 	 */
 	public function request(Request $request = NULL)
 	{
-		if ($request === NULL)
-				{
-					return $this->request;
-				}
+		if ($request === NULL) {
+			return $this->request;
+		}
 			
 		$this->request = $request;
 		
@@ -371,10 +345,9 @@ class Kohana_Pagination {
 	 */
 	public function route(Route $route = NULL)
 	{
-		if ($route === NULL)
-				{
-					return $this->route;
-				}
+		if ($route === NULL) {
+			return $this->route;
+		}
 			
 		$this->route = $route;
 		
@@ -390,10 +363,9 @@ class Kohana_Pagination {
 	 */
 	public function route_params(array $route_params = NULL)
 	{
-		if ($route_params === NULL)
-				{
-					return $this->route_params;
-				}
+		if ($route_params === NULL) {
+			return $this->route_params;
+		}
 			
 		$this->route_params = $route_params;
 		
@@ -418,7 +390,7 @@ class Kohana_Pagination {
 			// Merge the current and new parameters
 			$params = array_merge($this->request->query(), $params);
 		}
-		
+
 		if (empty($params))
 		{
 			// No query parameters
