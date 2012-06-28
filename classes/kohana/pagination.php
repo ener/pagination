@@ -387,8 +387,14 @@ class Kohana_Pagination {
 		}
 		else
 		{
+			// Move $this->config['current_page']['key'] to the end
+			$request_query = $this->request->query();
+			if (array_key_exists($this->config['current_page']['key'], $request_query)
+			&& array_key_exists($this->config['current_page']['key'], $params)) {
+				unset($request_query[$this->config['current_page']['key']]);
+			}
 			// Merge the current and new parameters
-			$params = array_merge($this->request->query(), $params);
+			$params = array_merge($request_query, $params);
 		}
 
 		if (empty($params))
